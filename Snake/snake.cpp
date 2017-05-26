@@ -11,79 +11,92 @@ int cx[100],cy[100],fx,fy,l=2;
 void display();
 int getfood();
 void food();
+
+char str1[20];
 int main()
 {
+
 
     int gd=DETECT,gm,x2,y2,i;
     char ch;
 
     cx[0]=x[0]=200;
-    cx[1]=x[1]=180;
+    cx[1]=x[1]=190;
     cy[0]=y[0]=200;
     cy[1]=y[1]=200;
+    FILE *fp;
     initgraph(&gd,&gm,"C:\\TC\\BGI");
-    for(i=2;i<=5;i++)
-    {
-     setcolor(15);
-    rectangle(i,i,getmaxx()-i,getmaxy()-i);
+    outt\extxy(getmaxx()/2,getmaxy()/2,"Please  Enter Your Name");
+    delay(1000);
+    gets(str1);
+
+            fp=fopen("ptr.txt","app");
+            fputs("Name :",fp);
+            fputs(str1,fp);
+    cleardevice();
+     for(i=150;i>=147;i--)
+     {
+         setcolor(15);
+         rectangle(i,i,getmaxx()-i,getmaxy()-i);
+         delay(50);
     }
+    setcolor(4);
+    setfillstyle(SOLID_FILL,RED);
+    pieslice(x[0],y[0],0,360,5);
     setcolor(2);
-    circle(x[0],y[0],10);
-    setcolor(2);
-    circle(x[1],y[1],10);
+    setfillstyle(SOLID_FILL,GREEN);
+    pieslice(x[1],y[1],0,360,5);
     food();
-    //setcolor(2);
-   // circle(x-1,y,10);
-    while(ch=getch())
+     while(ch=getch())
     {
         while(!kbhit())
         {
             if(y[0]>y[1])
             {
                 if(ch=='w'||ch=='s')
-                   y[0]=y[0]+20;
+                   y[0]=y[0]+10;
                 else if(ch=='a')
-                    x[0]=x[0]-20;
+                    x[0]=x[0]-10;
                  else if(ch=='d')
-                    x[0]=x[0]+20;
-
-            display();
-            getfood();
+                    x[0]=x[0]+10;
+                    else if(ch=='q')
+                        break;
+                 getfood();
             }
-       else   if(x[0]>x[1])
+       else if(x[0]>x[1])
            {
                if(ch=='a'||ch=='d')
-                   x[0]=x[0]+20;
+                   x[0]=x[0]+10;
                 else if(ch=='w')
-                    y[0]=y[0]-20;
+                    y[0]=y[0]-10;
                  else if(ch=='s')
-                    y[0]=y[0]+20;
-
-            display();
+                    y[0]=y[0]+10;
+                    else if(ch=='q')
+                        break;
             getfood();
         }
            else if(y[0]<y[1])
             {
                 if(ch=='w'||ch=='s')
-                   y[0]=y[0]-20;
+                   y[0]=y[0]-10;
                 else if(ch=='a')
-                    x[0]=x[0]-20;
+                    x[0]=x[0]-10;
                  else if(ch=='d')
-                    x[0]=x[0]+20;
-
-            display();
+                    x[0]=x[0]+10;
+                    else if(ch=='q')
+                        break;
             getfood();
         }
          else  if(x[0]<x[1])
            {
                if(ch=='a'||ch=='d')
-                   x[0]=x[0]-20;
+                   x[0]=x[0]-10;
                 else if(ch=='w')
-                    y[0]=y[0]-20;
+                    y[0]=y[0]-10;
                  else if(ch=='s')
-                    y[0]=y[0]+20;
-
-            display();
+                    y[0]=y[0]+10;
+                    else if(ch=='q')
+                        break;
             getfood();
         }
         for(i=0;i<l;i++)
@@ -93,17 +106,19 @@ int main()
             cy[i]=y[i];
         }
         //delay(200);
-//SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS        if(kbhit())
    delay(100);
         }
     }
+
     closegraph();
     return 0;
 }
 void display()
 {
     int i;
-    delay(300);
+  //ddddddddd
+    delay(90);
+
     for(i=0;i<l-1;i++)
     {
         x[i+1]=cx[i];
@@ -111,37 +126,64 @@ void display()
     }
         for(i=0;i<l;i++)
         {
+
             setcolor(0);
-            circle(cx[i],cy[i],10);
+            setfillstyle(SOLID_FILL,BLACK);
+            pieslice(cx[i],cy[i],0,360,5);
+            if(i!=0)
+            {
             setcolor(2);
-            circle(x[i],y[i],10);
+            setfillstyle(SOLID_FILL,GREEN);
+            pieslice(x[i],y[i],0,360,5);
+            }
+            else
+            {
+                setcolor(4);
+            setfillstyle(SOLID_FILL,RED);
+            pieslice(x[i],y[i],0,360,5);
+         }
         }
 }
 void food()
 {
  int i, n;
-   /* Intializes random number generator */
-   srand(time(NULL));
-fx=rand()%(400)+10;
-fy=rand()%(400)+10;
-setcolor(3);
-circle(fx,fy,10);
+srand(time(NULL));
+  do
+  {
+
+   fx=rand()%(getmaxx()-310)+155;
+   fy=rand()%(getmaxy()-310)+155;
+   fx=fx-fx%10;
+   fy==fy-fy%10;
+  }
+   while(getpixel(fx,fy)!=BLACK);
+   delay(30);
+ setcolor(3);
+ setfillstyle(SOLID_FILL,CYAN);
+ pieslice(fx,fy,0,360,5);
 }
 int getfood()
 {
     int a,b;
     a=pow(x[0]-fx,2);
     b=pow(y[0]-fy,2);
-if(sqrt(a+b)<=20)
+  if(a+b<100)
 {
     setcolor(0);
-    circle(fx,fy,10);
+    setfillstyle(SOLID_FILL,BLACK);
+    pieslice(fx,fy,0,360,5);
     l++;
     cx[l-1]=x[l-1]=cx[l-2];
     cy[l-1]=y[l-1]=cy[l-2];
-    setcolor(2);
-    circle(x[l-1],y[l-1],10);
     food();
 }
-}
+if(getpixel(x[0],y[0])!=0)
+       {
+           cleardevice();
+           outtextxy(getmaxx()/2,getmaxy()/2,"GAME OVER");
 
+    delay(1000);
+    exit(0);
+       }
+display();
+}
