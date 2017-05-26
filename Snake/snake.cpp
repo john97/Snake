@@ -3,61 +3,132 @@
 #include<dos.h>
 #include<stdlib.h>
 #include<iostream>
-int x[5];;
-int y[5];
+int x[100],y[100];
+int cx[100],cy[100],fx,fy,l=2;
 void display();
+int getfood();
+void food();
 int main()
 {
-    int gd=DETECT,gm;
+    int gd=DETECT,gm,x2,y2,i;
     char ch;
-    x[1]=x[0]=200;
-    y[1]=y[0]=200;
+
+    cx[0]=x[0]=200;
+    cx[1]=x[1]=180;
+    cy[0]=y[0]=200;
+    cy[1]=y[1]=200;
     initgraph(&gd,&gm,"C:\\TC\\BGI");
+    for(i=2;i<=5;i++)
+    {
+     setcolor(15);
+    rectangle(i,i,getmaxx()-i,getmaxy()-i);
+    }
     setcolor(2);
     circle(x[0],y[0],10);
+    setcolor(2);
+    circle(x[1],y[1],10);
+    food();
     //setcolor(2);
    // circle(x-1,y,10);
     while(ch=getch())
     {
         while(!kbhit())
         {
-        if(ch=='w')
-        {
-                y[0]=y[0]-5;
+            if(y[0]>y[1])
+            {
+                if(ch=='w'||ch=='s')
+                   y[0]=y[0]+20;
+                else if(ch=='a')
+                    x[0]=x[0]-20;
+                 else if(ch=='d')
+                    x[0]=x[0]+20;
+
             display();
-        }
-        else if(ch=='s')
-        {
-         //   if(x[0]-x[2]>0||x[0]-x[2]<0)
-                y[0]=y[0]+5;
+            getfood();
+            }
+       else   if(x[0]>x[1])
+           {
+               if(ch==KEY_LEFT||ch==KEY_RIGHT)
+                   x[0]=x[0]+20;
+                else if(ch==KEY_UP)
+                    y[0]=y[0]-20;
+                 else if(ch==KEY_DOWN)
+                    y[0]=y[0]+20;
+
             display();
+            getfood();
         }
-        else if(ch=='d')
-        {
-        //    if(y[0]>y[2]||y[0]<y[2])
-                x[0]=x[0]+5;
+           else if(y[0]<y[1])
+            {
+                if(ch=='w'||ch=='s')
+                   y[0]=y[0]-20;
+                else if(ch=='a')
+                    x[0]=x[0]-20;
+                 else if(ch=='d')
+                    x[0]=x[0]+20;
+
             display();
+            getfood();
         }
-        else if(ch=='a')
-        {
-         //   if(y[0]>y[2]||y[0]<y[2])
-                x[0]=x[0]-5;
+         else  if(x[0]<x[1])
+           {
+               if(ch=='a'||ch=='d')
+                   x[0]=x[0]-20;
+                else if(ch=='w')
+                    y[0]=y[0]-20;
+                 else if(ch=='s')
+                    y[0]=y[0]+20;
+
             display();
+            getfood();
         }
-        y[1]=y[0];
-        x[1]=x[0];
+        for(i=0;i<l;i++)
+            {
+              //  if(i!=l-1);
+            cx[i]=x[i];
+            cy[i]=y[i];
+        }
+        //delay(200);
+//SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS        if(kbhit())
+   delay(100);
         }
     }
+    closegraph();
     return 0;
 }
 void display()
 {
-    delay(500);
-    setcolor(0);
-    circle(x[1],y[1],10);
-
-    setcolor(2);
-    circle(x[0],y[0],10);
+    int i;
+    delay(300);
+    for(i=0;i<l-1;i++)
+    {
+        x[i+1]=cx[i];
+        y[i+1]=cy[i];
+    }
+        for(i=0;i<l;i++)
+        {
+            setcolor(0);
+            circle(cx[i],cy[i],10);
+            setcolor(2);
+            circle(x[i],y[i],10);
+        }
 }
+void food()
+{
+ int i, n;
+   /* Intializes random number generator */
+  // srand(time(NULL));
 
+}
+int getfood()
+{
+if((x[0]+10)>=(fx-5))
+{
+    l++;
+    cx[l-1]=x[l-1]=cx[l-2];
+    cy[l-1]=y[l-1]=cy[l-2];
+    setcolor(2);
+    circle(x[l-1],y[l-1],10);
+}
+}
 
