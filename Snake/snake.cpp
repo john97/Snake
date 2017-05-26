@@ -3,6 +3,9 @@
 #include<dos.h>
 #include<stdlib.h>
 #include<iostream>
+#include<time.h>
+#include<conio.h>
+#include<math.h>
 int x[100],y[100];
 int cx[100],cy[100],fx,fy,l=2;
 void display();
@@ -10,6 +13,7 @@ int getfood();
 void food();
 int main()
 {
+
     int gd=DETECT,gm,x2,y2,i;
     char ch;
 
@@ -48,11 +52,11 @@ int main()
             }
        else   if(x[0]>x[1])
            {
-               if(ch==KEY_LEFT||ch==KEY_RIGHT)
+               if(ch=='a'||ch=='d')
                    x[0]=x[0]+20;
-                else if(ch==KEY_UP)
+                else if(ch=='w')
                     y[0]=y[0]-20;
-                 else if(ch==KEY_DOWN)
+                 else if(ch=='s')
                     y[0]=y[0]+20;
 
             display();
@@ -117,18 +121,27 @@ void food()
 {
  int i, n;
    /* Intializes random number generator */
-  // srand(time(NULL));
-
+   srand(time(NULL));
+fx=rand()%(400)+10;
+fy=rand()%(400)+10;
+setcolor(3);
+circle(fx,fy,10);
 }
 int getfood()
 {
-if((x[0]+10)>=(fx-5))
+    int a,b;
+    a=pow(x[0]-fx,2);
+    b=pow(y[0]-fy,2);
+if(sqrt(a+b)<=20)
 {
+    setcolor(0);
+    circle(fx,fy,10);
     l++;
     cx[l-1]=x[l-1]=cx[l-2];
     cy[l-1]=y[l-1]=cy[l-2];
     setcolor(2);
     circle(x[l-1],y[l-1],10);
+    food();
 }
 }
 
